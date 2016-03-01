@@ -38,15 +38,19 @@ function djt_same_height_js() {
             }
         }
 
-        
+	function djt_unsetHeights() {
+	    jQuery(".same-height").height("auto");
+	}
 
         jQuery(window).load(function(){
             djt_setHeights();
         });
 
         jQuery(window).resize(function() {
+	    djt_unsetHeights();
             djt_setHeights();
         });
+
   	}
 </script>
 <?php
