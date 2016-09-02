@@ -42,7 +42,7 @@ function djt_same_height_js() {
             djt_setHeights();
         });
 
-        $('iframe').onload(function() {
+        $('iframe').load(function() {
             djt_unsetHeights();
             djt_setHeights();
         });   
