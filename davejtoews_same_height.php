@@ -16,42 +16,43 @@ wp_enqueue_script( 'jquery' );
 function djt_same_height_js() {
 ?>
 <script type="text/javascript">
-  	if ( undefined !== window.jQuery ) {
-	    // script dependent on jQuery
+    jQuery(document).ready(function($){
+
         function djt_getBiggestHeight() {
             var biggestHeight = 0;
-
-            jQuery(".same-height").each(function() {
-                if (jQuery(this).height() > biggestHeight) {
-                    biggestHeight = jQuery(this).height();
+            $(".same-height").each(function() {
+                if ($(this).height() > biggestHeight) {
+                    biggestHeight = $(this).height();
                 }
             })
-
             return biggestHeight;
         }
 
         function djt_setHeights() {
             if (window.matchMedia('(min-width: 768px)').matches) {
-
-                jQuery(".same-height").height(djt_getBiggestHeight());
-
+                $(".same-height").height(djt_getBiggestHeight());
             }
         }
 
-	function djt_unsetHeights() {
-	    jQuery(".same-height").height("auto");
-	}
+        function djt_unsetHeights() {
+            $(".same-height").height("auto");
+        }
 
-        jQuery(window).load(function(){
+        $(window).load(function(){
             djt_setHeights();
         });
 
-        jQuery(window).resize(function() {
-	    djt_unsetHeights();
+        $('iframe').onload(function() {
+            djt_unsetHeights();
+            djt_setHeights();
+        });   
+
+        $(window).resize(function() {
+            djt_unsetHeights();
             djt_setHeights();
         });
 
-  	}
+    }, jQuery);
 </script>
 <?php
 }
