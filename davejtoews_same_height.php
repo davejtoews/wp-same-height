@@ -16,30 +16,31 @@ wp_enqueue_script( 'jquery' );
 function djt_same_height_js() {
 ?>
 <script type="text/javascript">
-jQuery(document).ready(function($){
-        function djt_getBiggestHeight(selector) {
-            var biggestHeight = 0;
-            $(selector).each(function() {
-                if ($(this).height() > biggestHeight) {
-                    biggestHeight = $(this).height();
-                }
-            })
-            return biggestHeight;
-        }
-        function djt_setHeights(selector) {
-            if (window.matchMedia('(min-width: 768px)').matches) {
-                $(selector).height(djt_getBiggestHeight());
+    function djt_sameHeight(selector) {
+        jQuery(document).ready(function($){
+            function djt_getBiggestHeight(selector) {
+                var biggestHeight = 0;
+                $(selector).each(function() {
+                    if ($(this).height() > biggestHeight) {
+                        biggestHeight = $(this).height();
+                    }
+                })
+                return biggestHeight;
             }
-        }
-        function djt_unsetHeights(selector) {
-            $(selector).height("auto");
-        }
-        
-        function djt_setEvents(selector) {
-            $(window).load(function(){
+            function djt_setHeights(selector) {
+                if (window.matchMedia('(min-width: 768px)').matches) {
+                    $(selector).height(djt_getBiggestHeight(selector));
+                }
+            }
+            function djt_unsetHeights(selector) {
+                $(selector).height("auto");
+            }
+            
+            
+            $(window).on('load', function(){
                 djt_setHeights(selector);
             });
-            $('iframe').load(function() {
+            $('iframe').on('load', function() {
                 djt_unsetHeights(selector);
                 djt_setHeights(selector);
             });   
@@ -47,12 +48,13 @@ jQuery(document).ready(function($){
                 djt_unsetHeights(selector);
                 djt_setHeights(selector);
             });        
-        }
 
+            
 
-    }, jQuery); 
+        }, jQuery); 
+    }
 
-    djt_setEvents(".same-height");
+    djt_sameHeight(".same-height");
 </script>
 <?php
 }
