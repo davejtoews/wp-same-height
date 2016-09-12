@@ -16,43 +16,43 @@ wp_enqueue_script( 'jquery' );
 function djt_same_height_js() {
 ?>
 <script type="text/javascript">
-    jQuery(document).ready(function($){
-
-        function djt_getBiggestHeight() {
+jQuery(document).ready(function($){
+        function djt_getBiggestHeight(selector) {
             var biggestHeight = 0;
-            $(".same-height").each(function() {
+            $(selector).each(function() {
                 if ($(this).height() > biggestHeight) {
                     biggestHeight = $(this).height();
                 }
             })
             return biggestHeight;
         }
-
-        function djt_setHeights() {
+        function djt_setHeights(selector) {
             if (window.matchMedia('(min-width: 768px)').matches) {
-                $(".same-height").height(djt_getBiggestHeight());
+                $(selector).height(djt_getBiggestHeight());
             }
         }
-
-        function djt_unsetHeights() {
-            $(".same-height").height("auto");
+        function djt_unsetHeights(selector) {
+            $(selector).height("auto");
+        }
+        
+        function djt_setEvents(selector) {
+            $(window).load(function(){
+                djt_setHeights(selector);
+            });
+            $('iframe').load(function() {
+                djt_unsetHeights(selector);
+                djt_setHeights(selector);
+            });   
+            $(window).resize(function() {
+                djt_unsetHeights(selector);
+                djt_setHeights(selector);
+            });        
         }
 
-        $(window).load(function(){
-            djt_setHeights();
-        });
 
-        $('iframe').load(function() {
-            djt_unsetHeights();
-            djt_setHeights();
-        });   
+    }, jQuery); 
 
-        $(window).resize(function() {
-            djt_unsetHeights();
-            djt_setHeights();
-        });
-
-    }, jQuery);
+    djt_setEvents(".same-height");
 </script>
 <?php
 }
